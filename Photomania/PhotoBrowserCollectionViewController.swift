@@ -68,6 +68,15 @@ class PhotoBrowserCollectionViewController: UICollectionViewController, UICollec
   override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(PhotoBrowserCellIdentifier, forIndexPath: indexPath) as! PhotoBrowserCollectionViewCell
     
+    let imageURL = (photos.objectAtIndex(indexPath.row) as! PhotoInfo).url
+    
+    Alamofire.request(.GET, imageURL).response() {
+        (_, _, data, _) in
+        
+        let image = UIImage(data: data! as NSData)
+        cell.imageView.image = image
+    }
+    
     return cell
   }
   
